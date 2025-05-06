@@ -102,6 +102,7 @@ export type Connection = {
 }
 
 export type Signal<T...> = {
+ connect: (self: Signal<T...>, callback: (T...) -> ()) -> Connection,
 	Connect: (self: Signal<T...>, callback: (T...) -> ()) -> Connection,
 	Once: (self: Signal<T...>, callback: (T...) -> ()) -> Connection,
 	Fire: (self: Signal<T...>, T...) -> (),
@@ -128,6 +129,8 @@ function Signal:Connect(fn)
 	end
 	return connection
 end
+
+Signal.connect = Signal.Connect
 
 -- Disconnect all handlers. Since we use a linked list it suffices to clear the
 -- reference to the head handler.
